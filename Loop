@@ -1,0 +1,130 @@
+// TASK №1: circular list
+#include <iostream>
+
+using namespace std;
+
+class List
+{
+   int value;
+   List *next, *head;
+public:
+   List():head(NULL), next(NULL){};
+   void Insert(int newValue);
+   void Sort(List *);
+   void Show(List *);
+};
+
+void List::Insert(int newValue)
+{
+   List *newEl = new List;
+   newEl -> value = newValue;
+   newEl -> next = NULL;
+
+static List *m = new List;  // MINIMAL ELEMENT
+   List *curEl = new List;
+   curEl = head;
+
+
+   if( head == NULL )
+   {
+     head = newEl;
+     newEl -> next = head;
+     m = newEl;
+   }
+   else
+   {   // INSERT FIRST ELEMENT
+    do
+    {
+     if( (curEl == head) && ( curEl -> next == head ) )
+     {
+        curEl -> next = newEl;
+        newEl -> next = head;
+        break;
+     }
+     else
+     {     // ARRANGE ASCENDING
+        if( m -> value < newEl -> value )
+        {
+           do
+           {
+              if( (curEl -> value < newEl -> value) && ( ( curEl -> next -> value > newEl -> value ) || ( curEl -> next == m ) ) )
+              {
+                 newEl -> next = curEl -> next;
+                 curEl -> next = newEl;
+              }
+
+              curEl = curEl -> next;
+           }while( curEl != newEl );
+
+           break;
+        }
+        // FINDING MINIMUM
+
+        if( m -> value > newEl -> value )
+        {
+           if( m == head )
+           {
+              do
+              {
+                 if( curEl -> next == head )
+                 {
+                   newEl -> next = head;
+                   curEl -> next = newEl;
+                   m = newEl;
+                 }
+
+                 curEl = curEl -> next;
+              }while( curEl != newEl );
+
+              break;
+           }
+           else
+           {
+              do
+              {
+                 if( curEl -> next == m )
+                 {
+                   newEl -> next = curEl -> next;
+                   curEl -> next = newEl;
+                   m = newEl;
+                 }
+                 curEl = curEl -> next;
+              }while( curEl != newEl );
+
+              break;
+           }
+        }
+     }
+
+   }while( curEl != m );
+  }
+
+   // SHOW ELEMENTS LIST
+
+   curEl = head;
+
+   do
+   {
+      cout << curEl -> value << " ";
+      curEl = curEl -> next;
+   }
+   while( curEl != head);
+   cout << endl;
+
+}
+
+
+int main()
+{
+    List a;
+
+    a.Insert(4);
+    a.Insert(6);
+    a.Insert(8);
+    a.Insert(1);
+    a.Insert(7);
+    a.Insert(3);
+    a.Insert(2);
+
+    return 0;
+}
