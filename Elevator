@@ -1,0 +1,92 @@
+// TASK №2: ELEVATOR
+#include <iostream>
+#include <cmath>
+#include <string.h>
+
+using namespace std;
+
+int main()
+{
+    short in[5] = {2, 1, 0, 0, 0}, out[5] = {0, 1, 0, 2, 1}, p = 3, mx = 0, mn = 0, tmp = 0;
+
+    cout << "IN:" << endl;
+
+    for(short i = 0; i < (sizeof(in)/2); i++)
+    {
+       cout << in[i] << " ";
+    }
+
+    cout << endl << "OUT:" << endl;
+
+    for(short i = 0; i < (sizeof(out)/2); i++)
+    {
+       cout << out[i] << " ";
+    }
+    cout << endl;
+
+    // SECURITY CHECK INPUT DATA
+
+    for(short i = 0; i < (sizeof(in)/2)-1; i++)
+    {
+
+       tmp = ( in[i] + in[i+1] - (out[i] + out[i+1]) );
+
+       if( abs(tmp) > p )
+       {
+          cout << "Error" << endl;
+          memset(in, 0, sizeof(in));
+          memset(out, 0, sizeof(out));
+          break;
+       }
+    }
+
+        if( out[0] == 0)
+        {
+           mn = 0;
+
+           if( in[0] == p )
+           {
+              mx = 0;
+           }
+           else
+           {
+              mx = p - in[0];
+              tmp = in[0];
+
+              for(short i = 0; i < (sizeof(in)/2)-1; i++)
+              {
+                  tmp = tmp - out[i+1] + in[i+1];
+
+                  if( tmp < 0 )
+                  {
+                     mn = abs(tmp);
+                     cout << "min: " << mn << endl;
+                     cout << "max: " << mx << endl;
+                     return 0;
+                  }
+              }
+            }
+
+            cout << "min: " << mn << endl;
+            cout << "max: " << mx << endl;
+            return 0;
+        }
+
+        if( out[0] == p )
+        {
+           mn, mx = p;
+        }
+        else
+        {
+           mn = out[0];
+           mx = p - in[0];
+        }
+
+
+        cout << "min: " << mn << endl;
+        cout << "max: " << mx << endl;
+
+
+
+    return 0;
+}
