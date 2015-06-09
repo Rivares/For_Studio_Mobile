@@ -1,0 +1,116 @@
+// TASK №3: BATTLE OF GOLD
+// 6 : 4, THAT I WILL WIN!!!
+#include <iostream>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+
+using namespace std;
+
+int main()
+{
+    srand( time( NULL ) );
+
+    short n = pow(10, 6), my = 0, c = 0, i = 0, j = 0, R = 10;
+    short br[2][10];
+
+    for(i = 0; i < 2; i++)
+    {
+       for(j = 0; j < R; j++)
+       {
+           br[i][j] = 1 + rand() % n;
+       }
+       c += br[1][j];
+    }
+
+    for(i = 0; i < 2; i++)
+    {
+       for(j = 0; j < R; j++)
+       {
+           cout << br[i][j] << " ";
+       }
+       cout << endl;
+    }
+
+    // GAME BEGIN:
+    i = 0;
+    j = 0;
+    while( c != 0 )
+    {
+       // FIRST STEP
+
+       while( c != 0 )
+       {
+          if( br[1][j] <= 0 )
+          {
+            j = 1 + rand() % R;
+          }
+
+          if( br[1][j] == 1 )
+          {
+              br[1][j]--;
+              my += br[0][j];
+              c--;
+              break;
+          }
+
+          if( ( (br[0][j] / 4) + i ) >= br[1][j] )
+          {
+              br[1][j]--;
+              c--;
+              break;
+          }
+
+          // БЕРУ "ЗОЛОТОЕ" СООТНОШЕНИЕ: 20 К 80
+          if( ( ( (br[0][j] / 4) + i ) <= br[1][j] ) && ( br[1][j] % 2 != 0 ) )
+          {
+              br[1][j]--;
+              i++;
+              c--;
+              break;
+          }
+          else
+          {
+            j = 1 + rand() % R;  // R : COUNT RANK ARRAY
+          }
+       }
+
+       // SECOND STEP
+       while( c != 0)
+       {
+          j = 1 + rand() % R;
+
+          if( br[1][j] <= 0 )
+          {
+            j = 1 + rand() % R;
+          }
+
+          if( br[1][j] == 1 )  // ПРОТИВНИК НЕ УПУСКАЕТ МОМЕНТА ОБРЕЗАТЬ ВЕРЁВКУ
+          {
+              br[1][j]--;
+              c--;
+              break;
+          }
+
+          if( (br[1][j] % 2 == 0) && (br[1][j] > 0) ) // ПРИОРИТЕТ ОТДАЁТСЯ ЧЁТНЫМ ЧИСЛАМ
+          {
+             br[1][j]--;
+             c--;
+             break;
+          }
+          else
+          {
+             br[1][j]--;
+             c--;
+             break;
+          }
+       }
+
+       j = 1 + rand() % R;
+    }
+
+
+    cout << endl << "My winnings: " << abs(my) << endl;
+
+    return 0;
+}
